@@ -5,7 +5,7 @@
 - HTML5
 - CSS3
 - vanilla javascript (ES3)
-- gradle
+- gradle 6.8.3
 - jdk 1.8.0_181
 - JPA
 - spring-boot 2.6.0
