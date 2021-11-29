@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src='./js/wiki-register.js'></script>
+    <title>위키 작성 페이지</title>
+</head>
+<body>
+    <form id='wiki-form'>
+        <div>
+            <label for="wiki-title" class="wiki-title">위키 제목</label>
+            <input id='wiki-title' type='text'>
+        </div>
+        <div>
+            <label for="wiki-contents">위키본문</label>
+            <textarea name="wiki-contents" id="wiki-contents" cols="30" rows="10" placeholder="여기에 위키를 작성해 주세요!">
+            </textarea>
+        </div>
+        <div>
+            <button type="submit">등록</button>
+        </div>
+    </form>
+</body>
+</html>
