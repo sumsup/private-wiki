@@ -3,6 +3,8 @@ window.onload = function () {
     // 모듈화. IIFE. Immediately Invoked Function Expression.
     (function () {
 
+        // TODO : 공통요소들 객체화 하기.
+
         let wikiId = getCookie('id');
 
         getWiki(wikiId);
