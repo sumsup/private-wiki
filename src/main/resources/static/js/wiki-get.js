@@ -4,7 +4,6 @@ window.onload = function () {
     (function () {
 
         let wikiId = getCookie('id');
-        let editor;
 
         getWiki(wikiId);
         addEventListener();
@@ -21,9 +20,7 @@ window.onload = function () {
         function displayWiki(arguments) {
             let wikiData = arguments[1];
 
-            // 에디터에 위키본문 셋팅.
-            setEditor(wikiData);
-            // 에디터 숨기기.
+            // 본문 작성창 숨기기.
             document.querySelector('#edit-contents-div').style.display = 'none';
 
             // 위키 내용을 화면에 표시.
@@ -38,6 +35,9 @@ window.onload = function () {
 
             let wikiElem = document.querySelector('#wiki-display-div');
             wikiElem.insertAdjacentHTML('afterbegin', wikiDisplay);
+
+            // 본문 내용을 수정창에도 추가.
+            document.querySelector('#wiki-contents-edit').value = wikiData['contents'];
         }
 
         function addEventListener() {
@@ -105,21 +105,6 @@ window.onload = function () {
 
         }
 
-        function setEditor(wikiData) {
-            editor = CodeMirror.fromTextArea(document.getElementById('wiki-contents'),
-                {
-                    lineNumbers: true,
-                    autoCloseBrackets: true,
-                    jumpToLine: true,
-                    runMode: true,
-                    activeLines: true,
-                    mode: "markdown",
-                }
-            );
-
-            editor.setValue(wikiData['contents']);
-        }
-
         function sendModify() {
             let url = 'http://localhost:8080/wiki/update/' + wikiId;
 
@@ -128,7 +113,7 @@ window.onload = function () {
             formData.method = 'post';
 
             formData.append('title', document.querySelector('#wiki-title').innerText);
-            formData.append('contents', editor.getValue());
+            formData.append('contents', document.querySelector('#wiki-contents-edit').value);
             formData.append('creatorId', '1');
 
             let createdAt = new Date(document.querySelector('#wiki-created-at').innerText)

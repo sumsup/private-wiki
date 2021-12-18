@@ -4,17 +4,6 @@ window.onload = function () {
     document.querySelector('#wiki-form').addEventListener('submit', submitWiki);
     document.querySelector('#go-to-list-btn').addEventListener('click', goToListPage);
 
-    let editor = CodeMirror.fromTextArea(document.getElementById('wiki-contents'),
-        {
-            lineNumbers: true,
-            autoCloseBrackets: true,
-            jumpToLine: true,
-            runMode: true,
-            activeLines: true,
-            mode: "markdown"
-        }
-    );
-
     function submitWiki() {
         event.preventDefault();
 
@@ -26,7 +15,7 @@ window.onload = function () {
         formData.method = 'post';
 
         formData.append("title", getFormData.querySelector('#wiki-title').value);
-        formData.append("contents", editor.getValue());
+        formData.append("contents", document.querySelector('#wiki-contents').value);
         formData.append("creatorId", 1);
 
         for (var pair of formData.entries()) {
