@@ -1,32 +1,43 @@
-window.onload = function() {
+window.onload = function () {
+    const xhr = new XMLHttpRequest();
 
     document.querySelector('#wiki-form').addEventListener('submit', submitWiki);
+    document.querySelector('#go-to-list-btn').addEventListener('click', goToListPage);
+
+    let editor = CodeMirror.fromTextArea(document.getElementById('wiki-contents'),
+        {
+            lineNumbers: true,
+            autoCloseBrackets: true,
+            jumpToLine: true,
+            runMode: true,
+            activeLines: true,
+            mode: "markdown"
+        }
+    );
 
     function submitWiki() {
         event.preventDefault();
-        
+
         const getFormData = document.querySelector('#wiki-form');
 
         let formData = new FormData();
 
-        formData.enctype='application/x-www-form-urlencoded';
-        formData.method='post';
+        formData.enctype = 'application/x-www-form-urlencoded';
+        formData.method = 'post';
 
         formData.append("title", getFormData.querySelector('#wiki-title').value);
-        formData.append("contents", getFormData.querySelector('#wiki-contents').value);
+        formData.append("contents", editor.getValue());
         formData.append("creatorId", 1);
 
         for (var pair of formData.entries()) {
             console.log(pair[0] + ' : ' + pair[1]);
         }
 
-        const xhr = new XMLHttpRequest();
-        xhr.onreadystatechange = function() {
+        xhr.onreadystatechange = function () {
             if (xhr.readyState === xhr.DONE) {
                 if (xhr.status === 200 || xhr.status === 201) {
-                    console.log('send success!');
-                }
-                else {
+                    window.location.href = "/page/wiki/list";
+                } else {
                     console.error(xhr.responseText);
                 }
             }
@@ -37,6 +48,10 @@ window.onload = function() {
         // xhr.setRequestHeader('Content-Type', 'multipart/form-data');
         xhr.send(formData);
 
+    }
+
+    function goToListPage() {
+        window.location.href = '/page/wiki/list';
     }
 
 }

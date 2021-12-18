@@ -17,6 +17,7 @@ public class WikiController {
     }
 
     @GetMapping("/list")
+    @ResponseBody
     public List<WikiDTO> searchWikiList() {
         return wikiService.searchList();
     }
@@ -40,6 +41,5 @@ public class WikiController {
     public boolean deleteWiki(@PathVariable Integer id) {
         return wikiService.delete(id);
     }
-
 
 }

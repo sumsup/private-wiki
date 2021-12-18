@@ -1,12 +1,17 @@
 package com.zetta.pwiki.service.wiki;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity(name="contents")
+@NoArgsConstructor
+@AllArgsConstructor
 @Data
 @Builder
 public class WikiDTO {
@@ -18,9 +23,11 @@ public class WikiDTO {
 
     private String contents;
     private String title;
-    private LocalDate createdAt = LocalDate.now();
-    private LocalDate updatedAt;
-    private LocalDate deletedAt;
+
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+    private LocalDateTime createdAt = LocalDateTime.now();
+    private LocalDateTime updatedAt;
+    private LocalDateTime deletedAt;
     private boolean isDeleted;
     private int creatorId;
 

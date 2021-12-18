@@ -3,7 +3,10 @@ package com.zetta.pwiki.service.wiki;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.criteria.*;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -12,13 +15,23 @@ public class WikiService {
 
     private final WikiRepository wikiRepository;
 
+    @PersistenceContext
+    private EntityManager em;
+
     public WikiService(WikiRepository wikiRepository) {
         this.wikiRepository = wikiRepository;
     }
 
     // 전체 리스트 반환.
     public List<WikiDTO> searchList() {
-        return wikiRepository.findAll();
+        // 삭제 처리된 위키는 제외하는 조회조건 추가.
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<WikiDTO> cr = cb.createQuery(WikiDTO.class);
+        Root wikiDTORoot = cr.from(WikiDTO.class);
+
+        cr.select(wikiDTORoot).where(cb.isFalse(wikiDTORoot.get("isDeleted")));
+
+        return em.createQuery(cr).getResultList();
     }
 
     // id로 검색하기.
@@ -43,7 +56,7 @@ public class WikiService {
         findWiki.ifPresent(
                 wiki -> {
                     WikiDTO updatedWiki = WikiDTO.builder().id(wikiDTO.getId())
-                            .updatedAt(LocalDate.now())
+                            .updatedAt(LocalDateTime.now())
                             .createdAt(wikiDTO.getCreatedAt())
                             .contents(wikiDTO.getContents())
                             .title(wikiDTO.getTitle())
@@ -59,15 +72,18 @@ public class WikiService {
 
     @Transactional
     public boolean delete(Integer id) {
-        Optional<WikiDTO> findWiki = wikiRepository.findById(id);
+        WikiDTO findWiki = wikiRepository.getById(id);
 
-        if (findWiki.isPresent()) {
-            wikiRepository.deleteById(id);
-
-            return true;
+        if (findWiki == null) {
+            return false;
         }
 
-        return false;
+        findWiki.setDeleted(true);
+        findWiki.setDeletedAt(LocalDateTime.now());
+
+        wikiRepository.save(findWiki);
+
+        return true;
     }
 
 }
