@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <title>위키 본문</title>
 
-    <script src="/js/util.js"></script>
-    <script src="/js/wiki-get.js"></script>
+    <!-- css import -->
+    <link rel="stylesheet" type="text/css" href="/dependency/tui/toastui-editor-viewer.css">
 
 </head>
 <body>
@@ -21,6 +21,8 @@
         <div id="edit-contents-div">
             <textarea id="wiki-contents-edit"></textarea>
         </div>
+        <div id="viewer"></div>
+        <div id="editor"></div>
     </div>
     <div id="btns-div">
         <div id='modify-go-div' style="visibility: hidden">
@@ -40,4 +42,10 @@
         </div>
     </div>
 </body>
+    <!-- script import -->
+    <script src="/dependency/tui/toastui-editor-all.js"></script>
+    <script src="/dependency/tui/toastui-editor-viewer.js"></script>
+    <script src="/js/util.js"></script>
+    <script src="/js/wiki-get.js"></script>
+
 </html>

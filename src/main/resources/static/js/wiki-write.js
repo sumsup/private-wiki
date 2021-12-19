@@ -1,8 +1,34 @@
 window.onload = function () {
-    const xhr = new XMLHttpRequest();
+    // global
+    const formElementObj = {
+        wiki : document.querySelector('#wiki-form'),
+    }
+    const buttonElementObj = {
+        goToList : document.querySelector('#go-to-list-btn'),
+    }
+    const Editor = toastui.Editor;
+    let editor;
 
-    document.querySelector('#wiki-form').addEventListener('submit', submitWiki);
-    document.querySelector('#go-to-list-btn').addEventListener('click', goToListPage);
+    eventListeners();
+    setTuiEditor();
+
+    function setTuiEditor() {
+        editor = new Editor({
+            el: document.querySelector('#editor'),
+            height: '500px',
+            theme: '',
+            initialEditType: 'markdown',
+            previewStyle: 'vertical',
+            usageStatistics: false
+        });
+        editor.setPlaceholder('위키를 작성해 보세요.');
+        editor.offsetWidth('964px');
+    }
+
+    function eventListeners() {
+        formElementObj.wiki.addEventListener('submit', submitWiki);
+        buttonElementObj.goToList.addEventListener('click', goToListPage);
+    }
 
     function submitWiki() {
         event.preventDefault();
@@ -11,36 +37,26 @@ window.onload = function () {
 
         let formData = new FormData();
 
-        formData.enctype = 'application/x-www-form-urlencoded';
-        formData.method = 'post';
-
         formData.append("title", getFormData.querySelector('#wiki-title').value);
-        formData.append("contents", document.querySelector('#wiki-contents').value);
+        formData.append("contents", editor.getMarkdown());
         formData.append("creatorId", 1);
 
         for (var pair of formData.entries()) {
             console.log(pair[0] + ' : ' + pair[1]);
         }
 
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState === xhr.DONE) {
-                if (xhr.status === 200 || xhr.status === 201) {
-                    window.location.href = "/page/wiki/list";
-                } else {
-                    console.error(xhr.responseText);
-                }
-            }
-        }
-        xhr.open('POST', 'http://localhost:8080/wiki/save');
-        // 헤더에 content-type 셋팅하면 서버에서 dto에 바인딩이 안된다. 왜지.
-        // xhr.setRequestHeader('content-type', 'application/x-www-form-urlencoded');
-        // xhr.setRequestHeader('Content-Type', 'multipart/form-data');
-        xhr.send(formData);
-
+        formData.enctype = 'application/x-www-form-urlencoded';
+        formData.method = 'post';
+        const URL = 'http://localhost:8080/wiki/save';
+        httpRequestSend(goToListPage, 'POST', URL, failRegisterWiki, formData);
     }
 
     function goToListPage() {
         window.location.href = '/page/wiki/list';
+    }
+
+    function failRegisterWiki(arguments) {
+        console.error(arguments[1].responseText);
     }
 
 }

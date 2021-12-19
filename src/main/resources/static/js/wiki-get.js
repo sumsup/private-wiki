@@ -3,12 +3,54 @@ window.onload = function () {
     // 모듈화. IIFE. Immediately Invoked Function Expression.
     (function () {
 
-        // TODO : 공통요소들 객체화 하기.
+        const buttonElementObj = {
+            goList : document.querySelector('#go-list-btn'),
+            delWiki : document.querySelector('#wiki-del-btn'),
+            modify : document.querySelector('#modify-btn'),
+            cancelModify : document.querySelector('#modify-cancel-btn'),
+            sendModify : document.querySelector('#modify-go-btn'),
+        }
 
+        const divElementObj = {
+            sendModifyBtnDiv : document.querySelector('#modify-go-div'),
+            cancelModifyBtnDiv : document.querySelector('#modify-cancel-div'),
+            editContentsDiv : document.querySelector('#edit-contents-div'),
+            contentsDiv : document.querySelector('#get-contents-div'),
+            viwerDiv : document.querySelector('#viewer'),
+            editorDiv : document.querySelector('#editor')
+        }
+        let wikiContents;
         let wikiId = getCookie('id');
+        const Editor = toastui.Editor;
+        let editor;
 
         getWiki(wikiId);
         addEventListener();
+
+        function setViewer(wikiContents) {
+            const Viewer = toastui.Editor;
+            const viewer = new Viewer({
+                el: divElementObj.viwerDiv,
+                height: '600px',
+                initialValue: wikiContents,
+
+            });
+            divElementObj.viwerDiv.style.width = '780px';
+        }
+
+        function setEditor(wikiContents) {
+            editor = new Editor({
+                el: divElementObj.editorDiv,
+                height: '500px',
+                theme: '',
+                initialEditType: 'markdown',
+                previewStyle: 'vertical',
+                usageStatistics: false,
+                initialValue: wikiContents
+            });
+            editor.offsetWidth('964px');
+        }
+
 
         function getWiki(id) {
             httpRequestSend(displayWiki, 'GET', 'http://localhost:8080/wiki/' + id, getWikiContentFail);
@@ -31,23 +73,27 @@ window.onload = function () {
             '<div>작성날짜</div>' +
             '<div id ="wiki-created-at">' + wikiData['createdAt'] + '</div>' +
             '<div>수정날짜</div>' +
-            '<div id="wiki-updated-at">' + wikiData['updatedAt'] + '</div>' +
-            '<div id="get-contents-div">본문' +
-            '<div id="wiki-contents">' + wikiData['contents'] + '</div></div>';
+            '<div id="wiki-updated-at">' + wikiData['updatedAt'] + '</div>'
+                // +
+            // '<div id="get-contents-div">본문' +
+            // '<div id="wiki-contents">' + wikiData['contents'] + '</div></div>'
+            ;
 
             let wikiElem = document.querySelector('#wiki-display-div');
             wikiElem.insertAdjacentHTML('afterbegin', wikiDisplay);
 
             // 본문 내용을 수정창에도 추가.
-            document.querySelector('#wiki-contents-edit').value = wikiData['contents'];
+            wikiContents = wikiData['contents'];
+            setViewer(wikiContents);
+            setEditor(wikiContents);
         }
 
         function addEventListener() {
-            document.querySelector('#go-list-btn').addEventListener('click', goToList);
-            document.querySelector('#wiki-del-btn').addEventListener('click', delWiki);
-            document.querySelector('#modify-btn').addEventListener('click', modifyContents);
-            document.querySelector('#modify-cancel-btn').addEventListener('click', modifyCancel);
-            document.querySelector('#modify-go-btn').addEventListener('click', sendModify);
+            buttonElementObj.goList.addEventListener('click', goToList);
+            buttonElementObj.delWiki.addEventListener('click', delWiki);
+            buttonElementObj.modify.addEventListener('click', modifyContents);
+            buttonElementObj.cancelModify.addEventListener('click', modifyCancel);
+            buttonElementObj.sendModify.addEventListener('click', sendModify);
         }
 
         function delWiki() {
@@ -74,35 +120,34 @@ window.onload = function () {
 
         function modifyContents() {
             // 수정 버튼을 화면에서 지우고. display none으로.
-            document.querySelector('#modify-btn').style.display = 'none';
+            buttonElementObj.modify.style.display = 'none';
 
             // 본문 내용도 화면에서 지우고. 자리도 차지하지 못하도록 제거.
-            document.querySelector('#get-contents-div').style.visibility = 'hidden';
+            divElementObj.viwerDiv.style.visibility = 'hidden';
 
             // 수정완료 버튼 화면에 표시.
-            document.querySelector('#modify-go-div').style.visibility = 'visible';
-            document.querySelector('#modify-cancel-div').style.visibility = 'visible';
+            divElementObj.sendModifyBtnDiv.style.visibility = 'visible';
+            divElementObj.cancelModifyBtnDiv.style.visibility = 'visible';
 
             // 에디터 화면을 띄운다.
-            document.querySelector('#edit-contents-div').style.display = 'unset';
+            divElementObj.editContentsDiv.style.display = 'unset';
 
         }
 
         function modifyCancel() {
-            // 수정 취소 할건지?
-            if (confirm('정말 수정 취소할꺼야?')) {
+            if (confirm('수정을 취소 하시겠습니까?')) {
                 // 수정취소 하면 -> 수정완료 버튼, 수정취소 버튼을 숨긴다.
-                document.querySelector('#modify-go-div').style.visibility = 'hidden';
-                document.querySelector('#modify-cancel-div').style.visibility = 'hidden';
+                divElementObj.sendModifyBtnDiv.style.visibility = 'hidden';
+                divElementObj.cancelModifyBtnDiv.style.visibility = 'hidden';
 
                 // 에디터를 숨긴다.
-                document.querySelector('#edit-contents-div').style.display = 'none';
+                divElementObj.editContentsDiv.style.display = 'none';
 
                 // 수정 버튼을 표시한다.
-                document.querySelector('#modify-btn').style.display = 'unset';
+                buttonElementObj.modify.style.display = 'unset';
 
                 // 본문을 표시한다.
-                document.querySelector('#get-contents-div').style.visibility = 'visible';
+                divElementObj.viwerDiv.style.visibility = 'visible';
             }
 
         }

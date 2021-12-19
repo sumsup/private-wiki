@@ -32,7 +32,7 @@
                     }
 
                 } else {
-                    finishCallBack(failCallback);
+                    finishCallBack(failCallback, xhr);
                 }
 
             }

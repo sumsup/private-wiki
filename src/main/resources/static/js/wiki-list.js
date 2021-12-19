@@ -2,12 +2,16 @@ window.onload = function (where, html) {
     // 모듈화. IIFE. Immediately Invoked Function Expression.
     (function () {
 
-        document.querySelector('#go-to-write-btn').addEventListener('click', goToWritePage);
+        const buttonElementObj = {
+            goToWritePage : document.querySelector('#go-to-write-btn'),
+        }
 
+        eventListeners();
         selectList();
 
-        // 리스트를 요청해 온다.
-        // json 으로 받아오자. 요즘 다들 json 쓰니까.
+        function eventListeners() {
+            buttonElementObj.goToWritePage.addEventListener('click', goToWritePage);
+        }
 
         function selectList() {
             const URL = 'http://localhost:8080/wiki/list';
