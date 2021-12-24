@@ -6,6 +6,9 @@ window.onload = function () {
     const buttonElementObj = {
         goToList : document.querySelector('#go-to-list-btn'),
     }
+    const divElementObj = {
+        editorDiv : document.querySelector('#editor'),
+    }
     const Editor = toastui.Editor;
     let editor;
 
@@ -14,15 +17,13 @@ window.onload = function () {
 
     function setTuiEditor() {
         editor = new Editor({
-            el: document.querySelector('#editor'),
+            el: divElementObj.editorDiv,
             height: '500px',
-            theme: '',
             initialEditType: 'markdown',
             previewStyle: 'vertical',
             usageStatistics: false
         });
         editor.setPlaceholder('위키를 작성해 보세요.');
-        editor.offsetWidth('964px');
     }
 
     function eventListeners() {
