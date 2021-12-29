@@ -8,23 +8,23 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
 @Controller
-public class PageViewController {
+public class WikiPageController {
 
     @GetMapping("page/wiki/list")
     public String wikiList() {
-        return "/wiki-list.html";
+        return "/page/wiki/wiki-list.html";
     }
 
     @GetMapping("page/wiki/write")
     public String wikiWrite() {
-        return "/wiki-write.html";
+        return "/page/wiki/wiki-write.html";
     }
 
     @GetMapping("page/wiki/get")
     public String wikiGet(@RequestParam Integer id, HttpServletResponse response) {
         Cookie cookie = new Cookie("id", id.toString());
         response.addCookie(cookie);
-        return "/wiki-get.html";
+        return "/page/wiki/wiki-get.html";
     }
 
 }

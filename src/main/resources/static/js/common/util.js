@@ -36,11 +36,11 @@
                 }
 
             }
-        }
+        };
 
         xhr.open(method, url);
 
-        if (method === 'POST') {
+        if (method === 'POST' && formData !== null) {
             xhr.send(formData);
         } else {
             xhr.send();

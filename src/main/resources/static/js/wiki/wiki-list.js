@@ -1,10 +1,11 @@
-window.onload = function (where, html) {
+window.addEventListener('load',function () {
+
     // 모듈화. IIFE. Immediately Invoked Function Expression.
     (function () {
 
         const buttonElementObj = {
             goToWritePage : document.querySelector('#go-to-write-btn'),
-        }
+        };
 
         eventListeners();
         selectList();
@@ -45,4 +46,4 @@ window.onload = function (where, html) {
 
     })();
 
-}
+});

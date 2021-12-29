@@ -1,4 +1,4 @@
-package com.zetta.pwiki.service.wiki;
+package com.zetta.pwiki.rest.wiki;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

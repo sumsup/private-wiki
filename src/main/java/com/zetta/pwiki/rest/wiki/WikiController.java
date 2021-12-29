@@ -1,4 +1,4 @@
-package com.zetta.pwiki.service.wiki;
+package com.zetta.pwiki.rest.wiki;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;

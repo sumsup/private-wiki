@@ -1,4 +1,4 @@
-package com.zetta.pwiki.service.wiki;
+package com.zetta.pwiki.rest.wiki;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

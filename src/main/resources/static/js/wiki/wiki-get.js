@@ -1,4 +1,4 @@
-window.onload = function () {
+window.addEventListener('load',function () {
 
     // 모듈화. IIFE. Immediately Invoked Function Expression.
     (function() {
@@ -180,5 +180,5 @@ window.onload = function () {
 
     })();
 
-}
+});
 
