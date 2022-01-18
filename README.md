@@ -12,6 +12,7 @@
 - MySQL 5.16
 - Ubuntu 20 LTS
 - Jenkins
+- AWS EC2
 
 # 개발 이력
 - 2021-11-19 : github 저장소 개설.
