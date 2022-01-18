@@ -10,6 +10,11 @@ import javax.servlet.http.HttpServletResponse;
 @Controller
 public class WikiPageController {
 
+    @GetMapping("page/wiki/all")
+    public String allWikiList() {
+        return "/page/wiki/all-wiki-list.html";
+    }
+
     @GetMapping("page/wiki/list")
     public String wikiList() {
         return "/page/wiki/wiki-list.html";

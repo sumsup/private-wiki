@@ -7,15 +7,30 @@ window.addEventListener('load',function () {
             goToWritePage : document.querySelector('#go-to-write-btn'),
         };
 
-        eventListeners();
-        selectList();
+        pageStarter();
+
+        function pageStarter() {
+            eventListeners();
+            selectList();
+            displayButtonWriteWiki();
+        }
+
+        // 로그인 상태일 시 위키 작성 버튼을 표시.
+        function displayButtonWriteWiki() {
+            let isLogined = getCookie('isLogined');
+
+            if (isLogined === 'true') {
+                document.querySelector('#write-wiki-div').style.visibility = 'visible';
+            }
+
+        }
 
         function eventListeners() {
             buttonElementObj.goToWritePage.addEventListener('click', goToWritePage);
         }
 
         function selectList() {
-            const URL = 'http://localhost:8080/wiki/list';
+            const URL = 'http://localhost:8080/wiki/all';
             httpRequestSend(displayList, 'GET', URL);
         }
 
@@ -41,7 +56,7 @@ window.addEventListener('load',function () {
         }
 
         function goToWritePage() {
-            window.location.href = '/page/wiki/write';
+            location.href = '/page/wiki/write';
         }
 
     })();

@@ -3,11 +3,11 @@ package com.zetta.pwiki.rest.wiki;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/wiki")
 @Slf4j
 public class WikiController {
     private final WikiService wikiService;
@@ -16,28 +16,34 @@ public class WikiController {
         this.wikiService = wikiService;
     }
 
-    @GetMapping("/list")
+    @GetMapping("/wiki/all")
     @ResponseBody
-    public List<WikiDTO> searchWikiList() {
-        return wikiService.searchList();
+    public List<WikiDTO> searchAllWikiList() {
+        return wikiService.searchAllList();
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/wiki/list")
+    @ResponseBody
+    public List<WikiDTO> searchWikiList(HttpSession userSession) {
+        return wikiService.searchList(userSession);
+    }
+
+    @GetMapping("/wiki/{id}")
     public Optional<WikiDTO> findWikiById(@PathVariable Integer id) {
         return wikiService.findById(id);
     }
 
-    @PostMapping("/save")
-    public WikiDTO saveWiki(WikiDTO wikiDTO) {
-        return wikiService.save(wikiDTO);
+    @PostMapping("/wiki/save")
+    public WikiDTO saveWiki(WikiDTO wikiDTO, HttpSession UserSession) {
+        return wikiService.save(wikiDTO, UserSession);
     }
 
-    @PostMapping("/update/{id}")
+    @PostMapping("/wiki/update/{id}")
     public boolean updateWiki(WikiDTO wikiDTO) {
         return wikiService.update(wikiDTO);
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/wiki/delete/{id}")
     public boolean deleteWiki(@PathVariable Integer id) {
         return wikiService.delete(id);
     }

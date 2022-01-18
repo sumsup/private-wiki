@@ -2,7 +2,6 @@ package com.zetta.pwiki.rest.login;
 
 import com.zetta.pwiki.rest.member.MemberDTO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -10,7 +9,6 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.IOException;
 
 @RestController
 public class LoginContorller {
@@ -21,13 +19,17 @@ public class LoginContorller {
     @PostMapping("/login")
     public boolean login(MemberDTO memberDTO, HttpServletRequest request, HttpServletResponse response) {
         // 회원 로그인 확인 절차.
-        boolean isLogin = loginService.loginMember(memberDTO);
+        MemberDTO getMember = loginService.loginMember(memberDTO);
 
         // 아이디에 해당하는 패스워드가 일치하면
-        if (isLogin) {
+        if (getMember != null && memberDTO.getPassword().equals(getMember.getPassword())) {
             // 세션에 로그인 성공 구분값을 넣어줌.
             HttpSession session = request.getSession();
             session.setAttribute("loginResult", true);
+
+            // 세션에 유저 정보를 저장.
+            session.setAttribute("email", getMember.getEmail());
+            session.setAttribute("userId", getMember.getId());
 
             // 로그인 구분자를 쿠키에 삽입.
             Cookie cookie = new Cookie("isLogined", "true");
@@ -46,7 +48,7 @@ public class LoginContorller {
     }
 
     @PostMapping("/logout")
-    public void logout(HttpSession session, HttpServletResponse response) throws IOException {
+    public void logout(HttpSession session, HttpServletResponse response) {
         // 서버에서 세션을 제거한다.
         session.invalidate();
 

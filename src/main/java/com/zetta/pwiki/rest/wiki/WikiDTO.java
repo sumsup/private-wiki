@@ -1,5 +1,6 @@
 package com.zetta.pwiki.rest.wiki;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -30,5 +31,7 @@ public class WikiDTO {
     private LocalDateTime deletedAt;
     private boolean isDeleted;
     private int creatorId;
+    private boolean isPrivate;
+    private LocalDateTime updatePrivateAt;
 
 }

@@ -4,13 +4,13 @@ window.addEventListener('load',function () {
         // global
         const formElementObj = {
             wiki: document.querySelector('#wiki-form'),
-        }
+        };
         const buttonElementObj = {
             goToList: document.querySelector('#go-to-list-btn'),
-        }
+        };
         const divElementObj = {
             editorDiv: document.querySelector('#editor'),
-        }
+        };
         const Editor = toastui.Editor;
         let editor;
 
@@ -36,15 +36,13 @@ window.addEventListener('load',function () {
         function submitWiki() {
             event.preventDefault();
 
-            const getFormData = document.querySelector('#wiki-form');
-
             let formData = new FormData();
 
-            formData.append("title", getFormData.querySelector('#wiki-title').value);
+            formData.append("title", document.querySelector('#wiki-title').value);
             formData.append("contents", editor.getMarkdown());
-            formData.append("creatorId", 1);
+            formData.append("private", document.querySelector('#is-private').checked === true ? 1 : 0);
 
-            for (var pair of formData.entries()) {
+            for (let pair of formData.entries()) {
                 console.log(pair[0] + ' : ' + pair[1]);
             }
 
