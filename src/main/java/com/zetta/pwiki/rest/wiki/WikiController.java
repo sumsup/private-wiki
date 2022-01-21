@@ -28,7 +28,7 @@ public class WikiController {
         return wikiService.searchList(userSession);
     }
 
-    @GetMapping("/wiki/{id}")
+    @GetMapping("/wiki/get/{id}")
     public Optional<WikiDTO> findWikiById(@PathVariable Integer id) {
         return wikiService.findById(id);
     }

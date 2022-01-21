@@ -6,48 +6,48 @@ window.addEventListener('load',function () {
         document.body.addEventListener('click', clickEventDispatcher);
 
         function displayHeader() {
+            let displayElem = '<div id="header-div">';
             // 마이 위키 리스트로 가는 버튼 표시.
             // 전체공개 위키 리스트로 가는 버튼 표시.
-            displayWikiListButton();
+            displayElem = displayWikiListButton(displayElem);
 
             let isLogined = getCookie("isLogined");
 
             // 로그인 상태면 로그아웃 버튼을 띄워주고.
             if (isLogined === 'true') {
-                displayLogoutButton();
+                displayElem = displayLogoutButton(displayElem);
             }
 
             // 로그아웃 상태면 헤더에 회원가입, 로그인 버튼을 띄워 주고.
             if (isLogined !== 'true') {
-                displayLoginButton();
+                displayElem = displayLoginButton(displayElem);
             }
 
+            displayElem += '</div>';
+            document.body.insertAdjacentHTML('afterbegin', displayElem);
+
         }
 
-        function displayWikiListButton() {
-            let wikiListBtn = '<div>\n' +
-                '        <button type="button" id="go-my-wiki-list"><a href="/page/wiki/list">내 위키 목록</a></button>\n' +
-                '        <button type="button" id="go-all-wiki-list"><a href="/page/wiki/all">모든 위키 목록</a></button>\n' +
-                '    </div>';
+        function displayWikiListButton(displayElem) {
+            displayElem +=
+                '<a href="/page/wiki/list"><button type="button" id="go-my-wiki-list">내 위키 목록</button></a>\n' +
+                '<a href="/page/wiki/all"><button type="button" id="go-all-wiki-list">모든 위키 목록</button></a>\n';
 
-            document.body.insertAdjacentHTML('afterbegin', wikiListBtn);
+            return displayElem;
         }
 
-        function displayLogoutButton() {
-            let headerElement = '<div>\n' +
-                '        <button type="button" id="logout-btn">로그아웃</button>\n' +
-                '    </div>';
+        function displayLogoutButton(displayElem) {
+            displayElem += '<button type="button" id="logout-btn">로그아웃</button>\n';
 
-            document.body.insertAdjacentHTML('afterbegin', headerElement);
+            return displayElem;
         }
 
-        function displayLoginButton() {
-            let headerElement = '<div>\n' +
-                '        <button type="button" id="member-join-btn"><a href="/page/member/join">회원가입</a></button>\n' +
-                '        <button type="button" id="login-btn"><a href="/page/member/login">로그인</a></button>\n' +
-                '    </div>';
+        function displayLoginButton(displayElem) {
+            displayElem +=
+                '<a href="/page/member/join"><button type="button" id="member-join-btn">회원가입</button></a>\n' +
+                '<a href="/page/member/login"><button type="button" id="login-btn">로그인</button></a>\n';
 
-            document.body.insertAdjacentHTML('afterbegin', headerElement);
+            return displayElem;
         }
 
         // 클릭된 버튼에 따라서 로그인을 수행할지, 로그아웃을 수행할지 결정.

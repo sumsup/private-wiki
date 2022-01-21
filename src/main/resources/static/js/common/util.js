@@ -23,11 +23,9 @@
 
                     if (method === 'GET') {
                         finishCallBack(callback, JSON.parse(xhr.responseText));
-                    }
-                    else if (method === 'DELETE') {
+                    } else if (method === 'DELETE') {
                         finishCallBack(callback);
-                    }
-                    else if (method === 'POST') {
+                    } else if (method === 'POST') {
                         finishCallBack(callback);
                     }
 
@@ -36,6 +34,11 @@
                 }
 
             }
+
+            if (xhr.status === 503) {
+                finishCallBack(failCallback, xhr);
+            }
+
         };
 
         xhr.open(method, url);

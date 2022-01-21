@@ -9,7 +9,7 @@ window.addEventListener('load',function () {
             modify : document.querySelector('#modify-btn'),
             cancelModify : document.querySelector('#modify-cancel-btn'),
             sendModify : document.querySelector('#modify-go-btn'),
-        }
+        };
 
         const divElementObj = {
             sendModifyBtnDiv : document.querySelector('#modify-go-div'),
@@ -17,7 +17,7 @@ window.addEventListener('load',function () {
             contentsDiv : document.querySelector('#get-contents-div'),
             viwerDiv : document.querySelector('#viewer'),
             editorDiv : document.querySelector('#editor')
-        }
+        };
 
         let wikiId = getCookie('id');
 
@@ -56,12 +56,15 @@ window.addEventListener('load',function () {
 
 
         function getWiki(id) {
-            httpRequestSend(displayWiki, 'GET', 'http://localhost:8080/wiki/' + id, getWikiContentFail);
+            httpRequestSend(displayWiki, 'GET', 'http://localhost:8080/wiki/get/' + id, getWikiContentFail);
         }
 
         function getWikiContentFail(arguments) {
-            let id = arguments[1];
-            console.log('get wiki contents failed id : %s' , id);
+            let xhr = arguments[1];
+            console.log('get wiki contents failed URL : %s' , xhr.responseURL);
+            if (xhr.status === 503) {
+                location.href = '/page/member/login';
+            }
         }
 
         function displayWiki(arguments) {
@@ -116,7 +119,7 @@ window.addEventListener('load',function () {
 
         function goToList() {
             // js 단에서 페이지 이동은 XHR로 하지 않는다. redirect 함.
-            window.location.href= '/page/wiki/list';
+            window.location.href= '/page/wiki/all';
         }
 
         function modifyContents() {

@@ -1,4 +1,8 @@
 window.addEventListener('load',function () {
+
+    // 모듈화. IIFE. Immediately Invoked Function Expression.
+    (function () {
+
         const buttonElementObj = {
             goToWritePage : document.querySelector('#go-to-write-btn'),
         };
@@ -26,8 +30,8 @@ window.addEventListener('load',function () {
         }
 
         function selectList() {
-            const URL = 'http://localhost:8080/wiki/list';
-            httpRequestSend(displayList, 'GET', URL, afterFailGetList);
+            const URL = 'http://localhost:8080/wiki/all';
+            httpRequestSend(displayList, 'GET', URL);
         }
 
         // 위키 리스트를 화면에 표시해 준다.
@@ -45,19 +49,14 @@ window.addEventListener('load',function () {
                 //     + wikiListJson[i]['title'] + '</a></div>'
                 //     + '<div class="wiki-created-time-value-div">' + wikiListJson[i]['createdAt'] + '</div>'
                 //     + '</div>';
-                //
-                // document.querySelector('#list-div').insertAdjacentHTML('beforeend', oneWikiTemplate);
 
                 let contentPreview = wikiListJson[i]['contents'].substring(0,30);
                 let createdDate = wikiListJson[i]['createdAt'].replace('T',' ');
-                let isPrivate = wikiListJson[i]['private'] === true ? '비공개' : '공개';
-
                 let oneWikiTemplateElem =
                     '<div class="one-wiki-div">\n' +
                     '<div class="wiki-title-value-div"><h3><a href="/page/wiki/get?id='+ wikiListJson[i]['id'] +'">' +
                     wikiListJson[i]['title'] + '</a></h3></div>\n' +
                     '<div><a href="/page/wiki/get?id='+ wikiListJson[i]['id'] +'">' + contentPreview + '</a></div>\n' +
-                    '<div>[' + isPrivate + ']</div>' +
                     '<div class="wiki-created-time-value-div">' + createdDate + '</div>\n' +
                     '</div><br>';
 
@@ -70,8 +69,6 @@ window.addEventListener('load',function () {
             location.href = '/page/wiki/write';
         }
 
-        function afterFailGetList() {
-            location.href = '/page/member/login';
-        }
+    })();
 
 });
