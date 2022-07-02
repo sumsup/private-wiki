@@ -1,0 +1,36 @@
+#list-div {
+    width: 1080px;
+    display: flex;
+    justify-content: center;
+    margin: 30px auto 0 auto;
+    flex-wrap: wrap;
+}
+
+#list-name-div {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    font-size: 20px;
+}
+
+.one-wiki-div {
+    display: block;
+    width: 300px;
+    height: 200px;
+    margin: 10px;
+    border: 1px solid #dcb5f7;
+    padding: 5px;
+}
+
+.content-preview-div {
+    margin-top: 10px;
+}
+
+.wiki-created-time-value-div {
+    margin-top: 10px;
+}
+
+
+.one-wiki-div h3 {
+    font-size: 30px;
+}

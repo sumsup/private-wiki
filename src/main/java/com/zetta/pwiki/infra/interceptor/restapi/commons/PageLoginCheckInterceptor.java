@@ -8,13 +8,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @Slf4j
-public class RestLoginCheckInterceptor implements HandlerInterceptor {
+public class PageLoginCheckInterceptor implements HandlerInterceptor {
 
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         if (WebUtils.isNotLogined(request)) {
             log.error("this request require login status. request URL : {}" , request.getRequestURI());
             response.setStatus(401); // Unauthorized. 로그인 해라.
+            response.sendRedirect("/page/member/login");
             return false;
         }
 

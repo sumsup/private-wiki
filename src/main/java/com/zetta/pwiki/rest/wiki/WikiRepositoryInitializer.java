@@ -18,10 +18,10 @@ public class WikiRepositoryInitializer {
         this.em = entityManager;
     }
 
-    public WikiDTO findById(Integer wikiId) {
+    public Wiki findById(Integer wikiId) {
         CriteriaBuilder cb = em.getCriteriaBuilder();
-        CriteriaQuery<WikiDTO> cr = cb.createQuery(WikiDTO.class);
-        Root wikiRoot = cr.from(WikiDTO.class);
+        CriteriaQuery<Wiki> cr = cb.createQuery(Wiki.class);
+        Root wikiRoot = cr.from(Wiki.class);
 
         cr.select(wikiRoot).where(cb.equal(wikiRoot.get("id") , wikiId));
 

@@ -1,9 +1,12 @@
 package com.zetta.pwiki.rest.wiki;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.beans.PropertyEditorSupport;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,31 +19,41 @@ public class WikiController {
         this.wikiService = wikiService;
     }
 
+    @InitBinder
+    void setUp(WebDataBinder binder) {
+        binder.registerCustomEditor(Date.class, new PropertyEditorSupport() {
+            @Override
+            public void setAsText(String text) throws IllegalArgumentException {
+                setValue(new Date(Long.valueOf(text)));
+            }
+        });
+    }
+
     @GetMapping("/wiki/all")
     @ResponseBody
-    public List<WikiDTO> searchAllWikiList() {
+    public List<Wiki> searchAllWikiList() {
         return wikiService.searchAllList();
     }
 
     @GetMapping("/wiki/list")
     @ResponseBody
-    public List<WikiDTO> searchWikiList(HttpSession userSession) {
+    public List<Wiki> searchWikiList(HttpSession userSession) {
         return wikiService.searchList(userSession);
     }
 
     @GetMapping("/wiki/get/{id}")
-    public Optional<WikiDTO> findWikiById(@PathVariable Integer id) {
+    public Optional<Wiki> findWikiById(@PathVariable Integer id) {
         return wikiService.findById(id);
     }
 
     @PostMapping("/wiki/save")
-    public WikiDTO saveWiki(WikiDTO wikiDTO, HttpSession UserSession) {
-        return wikiService.save(wikiDTO, UserSession);
+    public Wiki saveWiki(Wiki wiki, HttpSession UserSession) {
+        return wikiService.save(wiki, UserSession);
     }
 
     @PostMapping("/wiki/update/{id}")
-    public boolean updateWiki(WikiDTO wikiDTO) {
-        return wikiService.update(wikiDTO);
+    public boolean updateWiki(Wiki wiki) {
+        return wikiService.update(wiki);
     }
 
     @DeleteMapping("/wiki/delete/{id}")

@@ -2,11 +2,13 @@ package com.zetta.pwiki.infra.interceptor.restapi;
 
 import com.zetta.pwiki.commons.WikiCommons;
 import com.zetta.pwiki.util.WebUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+@Slf4j
 public class RestApiWikiUpdateOrDeleteInterceptor implements HandlerInterceptor {
 
     @Override
@@ -14,6 +16,7 @@ public class RestApiWikiUpdateOrDeleteInterceptor implements HandlerInterceptor 
         // 로그인 여부.
         if (WebUtils.isNotLogined(request)) {
             response.setStatus(403); // Forbidden.
+            log.error("**:: Cannot check login info ::**");
             return false;
         }
 

@@ -1,0 +1,10 @@
+#wiki-container {
+    margin: 30px auto 0 auto;
+    width: 1000px;
+}
+
+#viewer {
+    margin-top: 20px;
+    border: 1px solid gray;
+    padding: 20px;
+}

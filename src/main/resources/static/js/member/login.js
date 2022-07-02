@@ -8,13 +8,14 @@ window.addEventListener('load',function () {
 
         const inputElementObj = {
             email: document.querySelector('#email'),
-            password: document.querySelector('#password')
+            password: document.querySelector('#password'),
         };
 
         initLoginPage();
 
         function initLoginPage() {
             eventListeners();
+            document.querySelector('#email').focus();
         }
 
         function eventListeners() {
@@ -22,6 +23,12 @@ window.addEventListener('load',function () {
         }
 
         function submitLogin() {
+            // eventListener가 form validation 보다 우선 작동함. 그래서 가입하기 이벤트 발생시,
+            // 우선적으로 form validation을 체크.
+            if (!document.querySelector('#login-form').reportValidity()) {
+                return false;
+            }
+
             const EMAIL = inputElementObj.email.value;
             const PASSWORD = inputElementObj.password.value;
 
@@ -32,7 +39,7 @@ window.addEventListener('load',function () {
 
             const URL = 'http://localhost:8080/login';
 
-            httpRequestSend(afterSuccessLogin, 'POST', URL, afterFailLogin, formData);
+            HTTP_COMMON_UTILS.httpRequestSend(afterSuccessLogin, 'POST', URL, afterFailLogin, formData);
 
         }
 

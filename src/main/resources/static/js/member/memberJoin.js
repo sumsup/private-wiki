@@ -10,7 +10,8 @@ window.addEventListener('load',function () {
 
         const inputElementObj = {
             email : document.querySelector('#email'),
-            password : document.querySelector('#password')
+            password : document.querySelector('#password'),
+            nickname: document.querySelector('#nickname')
         };
 
         const formElement = document.querySelector('#member-join-form');
@@ -19,6 +20,7 @@ window.addEventListener('load',function () {
 
         function initJoinPage() {
             eventListeners();
+            document.querySelector('#email').focus();
         }
 
         function eventListeners() {
@@ -26,15 +28,20 @@ window.addEventListener('load',function () {
         }
 
         function joinSubmit() {
-            event.preventDefault();
+            // eventListener가 form validation 보다 우선 작동함. 그래서 가입하기 이벤트 발생시,
+            // 우선적으로 form validation을 체크.
+            if (!document.querySelector('#member-join-form').reportValidity()) {
+                return false;
+            }
 
             let formData = new FormData();
             formData.append('email', inputElementObj.email.value);
             formData.append('password', inputElementObj.password.value);
+            formData.append('nickname', inputElementObj.nickname.value);
 
             const URL = 'http://localhost:8080/member/join';
 
-            httpRequestSend(successJoinMember, 'POST', URL, failJoinMember, formData);
+            HTTP_COMMON_UTILS.httpRequestSend(successJoinMember, 'POST', URL, failJoinMember, formData);
         }
 
         function successJoinMember() {

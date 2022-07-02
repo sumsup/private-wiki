@@ -1,6 +1,6 @@
 package com.zetta.pwiki.commons;
 
-import com.zetta.pwiki.rest.wiki.WikiDTO;
+import com.zetta.pwiki.rest.wiki.Wiki;
 import com.zetta.pwiki.rest.wiki.WikiRepositoryInitializer;
 import org.springframework.stereotype.Component;
 
@@ -25,7 +25,7 @@ public class WikiCommons {
      * 위키가 전체공개인지 확인. 전체공개면 true. 비공개면 false.
      */
     public static boolean isWikiPublic(Integer wikiId) {
-        WikiDTO wiki = wikiRepositoryInitializer.findById(wikiId);
+        Wiki wiki = wikiRepositoryInitializer.findById(wikiId);
 
         if (wiki != null) {
             if (wiki.isPrivate()) {
@@ -42,10 +42,10 @@ public class WikiCommons {
      * 위키 작성자가 일치 하는지 확인.
      */
     public static boolean isMatchWikiMaker(Integer wikiId, Integer creatorId) {
-        WikiDTO wiki = wikiRepositoryInitializer.findById(wikiId);
+        Wiki wiki = wikiRepositoryInitializer.findById(wikiId);
 
         if (wiki != null) {
-            if (wiki.getCreatorId() == creatorId) {
+            if (wiki.getMember().getId() == creatorId) {
                 return true;
             }
         }
