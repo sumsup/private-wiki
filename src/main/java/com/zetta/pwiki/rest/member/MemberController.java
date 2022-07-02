@@ -13,8 +13,8 @@ public class MemberController {
     private MemberService memberService;
 
     @PostMapping("join")
-    public MemberDTO joinMember(MemberDTO memberDTO) {
-        return memberService.joinMember(memberDTO);
+    public Member joinMember(Member member) {
+        return memberService.joinMember(member);
     }
 
 }

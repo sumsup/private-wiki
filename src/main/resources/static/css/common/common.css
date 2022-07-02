@@ -1,0 +1,19 @@
+a {
+  text-decoration: none;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 0;
+  padding: 0;
+}
+
+button {
+  /*background: #dcb5f7;*/
+  border-radius: 3px;
+  border: 1px solid gray;
+  margin: 0px;
+}
+
+button:hover {
+  background: #f7d4f0;
+}

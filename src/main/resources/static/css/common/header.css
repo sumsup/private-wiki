@@ -1,0 +1,38 @@
+
+#header-div {
+    display: flex;
+    width: 1000px;
+    margin: 10px auto;
+    justify-content: space-between;
+}
+
+#header-div button {
+    margin-top: 10px;
+    margin-right: 10px;
+    height: 40px;
+    padding: 10px;
+    font-size: 15px;
+}
+
+#left-header-div {
+    display: flex;
+}
+
+#right-header-div {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.header-item-div {
+    display: inline-block;
+}
+
+#right-header-div .header-item-div {
+    display: flex;
+    justify-content: flex-end;
+}
+
+#right-header-div button {
+    margin-right: 0px;
+    margin-left: 10px;
+}

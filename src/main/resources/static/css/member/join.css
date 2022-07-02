@@ -1,0 +1,45 @@
+#join-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    height: 70vh;
+}
+
+.join-item-btn {
+    width: 300px;
+    height: 50px;
+    font-size: 18px;
+}
+
+#button-div {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 30px;
+}
+
+#go-to-main-div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 25px;
+}
+
+.join-item {
+    margin-top: 20px;
+    font-size: 18px;
+}
+
+.join-input-div {
+    width: 392px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+input {
+    width: 300px;
+    height: 30px;
+}

@@ -17,7 +17,7 @@ public class WikiPageController {
 
     @GetMapping("page/wiki/list")
     public String wikiList() {
-        return "/page/wiki/wiki-list.html";
+        return "/page/wiki/my-wiki-list.html";
     }
 
     @GetMapping("page/wiki/write")

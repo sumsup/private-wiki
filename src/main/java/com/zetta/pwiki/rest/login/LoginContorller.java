@@ -1,6 +1,6 @@
 package com.zetta.pwiki.rest.login;
 
-import com.zetta.pwiki.rest.member.MemberDTO;
+import com.zetta.pwiki.rest.member.Member;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,12 +17,12 @@ public class LoginContorller {
     private LoginService loginService;
 
     @PostMapping("/login")
-    public boolean login(MemberDTO memberDTO, HttpServletRequest request, HttpServletResponse response) {
+    public boolean login(Member member, HttpServletRequest request, HttpServletResponse response) {
         // 회원 로그인 확인 절차.
-        MemberDTO getMember = loginService.loginMember(memberDTO);
+        Member getMember = loginService.loginMember(member);
 
         // 아이디에 해당하는 패스워드가 일치하면
-        if (getMember != null && memberDTO.getPassword().equals(getMember.getPassword())) {
+        if (getMember != null && member.getPassword().equals(getMember.getPassword())) {
             // 세션에 로그인 성공 구분값을 넣어줌.
             HttpSession session = request.getSession();
             session.setAttribute("loginResult", true);
@@ -30,6 +30,7 @@ public class LoginContorller {
             // 세션에 유저 정보를 저장.
             session.setAttribute("email", getMember.getEmail());
             session.setAttribute("userId", getMember.getId());
+            session.setMaxInactiveInterval(60 * 60); // 기본 세션 유지시간. 1시간.
 
             // 로그인 구분자를 쿠키에 삽입.
             Cookie cookie = new Cookie("isLogined", "true");

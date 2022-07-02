@@ -24,11 +24,11 @@ public class WikiService {
     }
 
     // 메인화면의 전체 리스트 반환.
-    public List<WikiDTO> searchAllList() {
+    public List<Wiki> searchAllList() {
         // 삭제 처리된 위키는 제외하는 조회조건 추가.
         CriteriaBuilder cb = em.getCriteriaBuilder();
-        CriteriaQuery<WikiDTO> cr = cb.createQuery(WikiDTO.class);
-        Root wikiDTORoot = cr.from(WikiDTO.class);
+        CriteriaQuery<Wiki> cr = cb.createQuery(Wiki.class);
+        Root wikiDTORoot = cr.from(Wiki.class);
 
         Predicate notDeleted = cb.isFalse(wikiDTORoot.get("isDeleted"));
         Predicate notPrivate = cb.isFalse(wikiDTORoot.get("isPrivate"));
@@ -40,13 +40,13 @@ public class WikiService {
     }
 
     // 회원이 작성한 리스트 반환.
-    public List<WikiDTO> searchList(HttpSession userSession) {
+    public List<Wiki> searchList(HttpSession userSession) {
         // 삭제 처리된 위키는 제외하는 조회조건 추가.
         CriteriaBuilder cb = em.getCriteriaBuilder();
-        CriteriaQuery<WikiDTO> cr = cb.createQuery(WikiDTO.class);
-        Root wikiDTORoot = cr.from(WikiDTO.class);
+        CriteriaQuery<Wiki> cr = cb.createQuery(Wiki.class);
+        Root wikiDTORoot = cr.from(Wiki.class);
 
-        Predicate equalCreatorId = cb.equal(wikiDTORoot.get("creatorId"), userSession.getAttribute("userId"));
+        Predicate equalCreatorId = cb.equal(wikiDTORoot.get("member").get("id"), userSession.getAttribute("userId"));
         Predicate notDeleted = cb.isFalse(wikiDTORoot.get("isDeleted"));
         Predicate finalConditions = cb.and(equalCreatorId, notDeleted);
 
@@ -56,45 +56,40 @@ public class WikiService {
     }
 
     // id로 검색하기.
-    public Optional<WikiDTO> findById(Integer id) {
+    public Optional<Wiki> findById(Integer id) {
         return wikiRepository.findById(id);
     }
 
     // 위키 등록하기.
-    public WikiDTO save(WikiDTO wikiDTO, HttpSession userSession) {
-        wikiDTO.setCreatorId((Integer) userSession.getAttribute("userId"));
-        return wikiRepository.save(wikiDTO);
+    // TODO : created_at 컬럼을 default now()로 설정했는데 왜 null로 들어갈까??
+    public Wiki save(Wiki wiki, HttpSession userSession) {
+//        wiki.setCreatorId((Integer) userSession.getAttribute("userId"));
+        wiki.getMember().setId((Integer) userSession.getAttribute("userId"));
+        return wikiRepository.save(wiki);
     }
 
     // 위키 수정.
     @Transactional
-    public boolean update(WikiDTO wikiDTO) {
-        Optional<WikiDTO> findWiki = wikiRepository.findById(wikiDTO.getId());
+    public boolean update(Wiki wikiDTO) {
+        Optional<Wiki> findWiki = wikiRepository.findById(wikiDTO.getId());
 
         if (!findWiki.isPresent()) {
             return false;
         }
 
-        findWiki.ifPresent(
-                wiki -> {
-                    WikiDTO updatedWiki = WikiDTO.builder().id(wikiDTO.getId())
-                            .updatedAt(LocalDateTime.now())
-                            .createdAt(wikiDTO.getCreatedAt())
-                            .contents(wikiDTO.getContents())
-                            .title(wikiDTO.getTitle())
-                            .creatorId(wikiDTO.getCreatorId())
-                            .build();
-
-                    wikiRepository.save(updatedWiki);
-                }
-        );
+        findWiki.ifPresent(wiki -> {
+            wiki.setTitle(wikiDTO.getTitle());
+            wiki.setContents(wikiDTO.getContents());
+            wiki.setPrivate(wikiDTO.isPrivate());
+            wiki.getMember().setId(wikiDTO.getMember().getId());
+        });
 
         return true;
     }
 
     @Transactional
     public boolean delete(Integer id) {
-        WikiDTO findWiki = wikiRepository.getById(id);
+        Wiki findWiki = wikiRepository.getById(id);
 
         if (findWiki == null) {
             return false;

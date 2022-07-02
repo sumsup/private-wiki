@@ -11,8 +11,8 @@ public class MemberService {
         this.memberRepository = memberRepository;
     }
 
-    public MemberDTO joinMember(MemberDTO memberDTO) {
-        return memberRepository.save(memberDTO);
+    public Member joinMember(Member member) {
+        return memberRepository.save(member);
     }
 
 

@@ -16,6 +16,7 @@ window.addEventListener('load',function () {
 
         eventListeners();
         setTuiEditor();
+        HTTP_COMMON_UTILS.keepSession();
 
         function setTuiEditor() {
             editor = new Editor({
@@ -41,6 +42,7 @@ window.addEventListener('load',function () {
             formData.append("title", document.querySelector('#wiki-title').value);
             formData.append("contents", editor.getMarkdown());
             formData.append("private", document.querySelector('#is-private').checked === true ? 1 : 0);
+            formData.append("member.email", "testEmail@naver.com");
 
             for (let pair of formData.entries()) {
                 console.log(pair[0] + ' : ' + pair[1]);
@@ -49,7 +51,7 @@ window.addEventListener('load',function () {
             formData.enctype = 'application/x-www-form-urlencoded';
             formData.method = 'post';
             const URL = 'http://localhost:8080/wiki/save';
-            httpRequestSend(goToListPage, 'POST', URL, failRegisterWiki, formData);
+            HTTP_COMMON_UTILS.httpRequestSend(goToListPage, 'POST', URL, failRegisterWiki, formData);
         }
 
         function goToListPage() {
@@ -57,7 +59,7 @@ window.addEventListener('load',function () {
         }
 
         function failRegisterWiki(arguments) {
-            console.error(arguments[1].responseText);
+            console.error("wiki save status : %s" , arguments[1].status);
         }
 
     })();

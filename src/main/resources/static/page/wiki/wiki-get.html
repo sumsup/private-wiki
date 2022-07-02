@@ -3,46 +3,56 @@
 <head>
     <meta charset="UTF-8">
     <title>위키 본문</title>
-
-    <!-- css import -->
-    <link rel="stylesheet" type="text/css" href="/dependency/tui/toastui-editor.css">
-
 </head>
 <body>
-    <div id="wiki-display-div">
-<!--        <div>타이틀</div>-->
-<!--        <div>타이틀 값</div>-->
-<!--        <div>작성날짜</div>-->
-<!--        <div>작성날짜 값</div>-->
-<!--        <div>수정날짜</div>-->
-<!--        <div>수정날짜 값</div>-->
-<!--        <div>본문</div>-->
-<!--        <div>본문 값</div>-->
-        <div id="viewer"></div>
-        <div id="editor"></div>
-    </div>
-    <div id="btns-div">
-        <div id='modify-go-div' style="visibility: hidden">
-            <button id="modify-go-btn" >수정완료</button>
+    <div id="wiki-container">
+        <div id="wiki-display-div">
+            <div id="wiki-title-wrap-div"><h3>타이틀</h3>
+                <div id="wiki-title"></div></div>
+            <div id="title-input-div" style="display: none;">
+                <label for="wiki-title-input"><h3>타이틀</h3></label>
+                <input type="text" id="wiki-title-input">
+            </div>
+            <div><h3>작성날짜</h3></div>
+            <div id ="wiki-created-at"></div>
+            <div><h3>수정날짜</h3></div>
+            <div id="wiki-updated-at"></div>
+            <div><h3>작성자</h3></div>
+            <div id="wiki-creator-nickname"></div>
+
+            <div id="viewer"></div>
+            <div id="editor"></div>
         </div>
-        <div id='modify-cancel-div' style="visibility: hidden">
-            <button id="modify-cancel-btn">수정취소</button>
-        </div>
-        <div>
-            <button id="modify-btn">수정</button>
-        </div>
-        <div>
-            <button id="wiki-del-btn">삭제</button>
-        </div>
-        <div>
-            <button id='go-list-btn'>목록으로</button>
+        <div id="btns-div">
+            <div id='modify-go-div' style="visibility: hidden">
+                <button id="modify-go-btn" >수정완료</button>
+            </div>
+            <div id='modify-cancel-div' style="visibility: hidden">
+                <button id="modify-cancel-btn">수정취소</button>
+            </div>
+            <div>
+                <button id="modify-btn">수정</button>
+            </div>
+            <div id="wiki-del-btn-div">
+                <button id="wiki-del-btn">삭제</button>
+            </div>
         </div>
     </div>
 </body>
+    <!-- css external library import -->
+    <link rel="stylesheet" type="text/css" href="/dependency/tui/toastui-editor.css">
+
+    <!-- css import -->
+    <link rel="stylesheet" type="text/css" href="/css/common/common.css">
+    <link rel="stylesheet" type="text/css" href="/css/common/header.css">
+    <link rel="stylesheet" type="text/css" href="/css/common/footer.css">
+    <link rel="stylesheet" type="text/css" href="/css/wiki/getWiki.css">
+
     <!-- script import -->
     <script src="/dependency/tui/toastui-editor-all.js"></script>
     <script src="/js/common/util.js"></script>
     <script src="/js/wiki/wiki-get.js"></script>
+    <script src="/js/common/header.js"></script>
     <script src="/js/common/footer.js"></script>
 
 </html>

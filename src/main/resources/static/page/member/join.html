@@ -5,22 +5,46 @@
     <title>회원가입</title>
 </head>
 <body>
-
-    <div>
-        <p>회원 가입을 위해 아래 양식을 입력해 주세요.</p>
-    </div>
-    <div>
-        <form id="member-join-form">
-            <label for="email">이메일</label>
-            <input type="email" id="email">
-            <label for="password">패스워드</label>
-            <input type="password" id="password">
-            <button type="submit" id="join-submit-btn">가입하기</button>
-        </form>
+    <div id="join-container">
+        <div>
+            <p>회원 가입을 위해 아래 양식을 입력해 주세요</p>
+        </div>
+        <div>
+            <form id="member-join-form" method="post" action="#">
+                <div class="join-item join-input-div">
+                    <label for="email">이메일</label>
+                    <input type="email" id="email" required />
+                </div>
+                <div class="join-item join-input-div">
+                    <label for="password">패스워드</label>
+                    <input type="password" id="password" minlength="6" placeholder="6자 이상 입력해주세요" required />
+                </div>
+                <div class="join-item join-input-div">
+                    <label for="nickname">닉네임</label>
+                    <input type="text" id="nickname" minlength="2" placeholder="2자 이상 입력해주세요" required />
+                </div>
+                <div id="button-div">
+                    <div id="join-btn-div" class="join-item-div">
+                        <button type="submit" id="join-submit-btn" class="join-item-btn">가입하기</button>
+                    </div>
+                </div>
+            </form>
+            <div id="go-to-main-div" class="join-item-div">
+                <a href="/page/wiki/all">
+                    <button type="button" id="go-to-main-btn" class="join-item-btn">메인으로</button>
+                </a>
+            </div>
+        </div>
     </div>
 
 </body>
+
+    <link rel="stylesheet" type="text/css" href="/css/common/common.css">
+    <link rel="stylesheet" type="text/css" href="/css/member/join.css">
+    <link rel="stylesheet" type="text/css" href="/css/common/footer.css">
+
     <script src="/js/common/util.js"></script>
     <script src="/js/member/memberJoin.js"></script>
     <script src="/js/common/footer.js"></script>
+
 </html>
