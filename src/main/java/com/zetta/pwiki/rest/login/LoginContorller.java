@@ -13,8 +13,11 @@ import javax.servlet.http.HttpSession;
 @RestController
 public class LoginContorller {
 
-    @Autowired
-    private LoginService loginService;
+    private final LoginService loginService;
+
+    public LoginContorller(LoginService loginService) {
+        this.loginService = loginService;
+    }
 
     @PostMapping("/login")
     public boolean login(Member member, HttpServletRequest request, HttpServletResponse response) {
@@ -30,7 +33,7 @@ public class LoginContorller {
             // 세션에 유저 정보를 저장.
             session.setAttribute("email", getMember.getEmail());
             session.setAttribute("userId", getMember.getId());
-            session.setMaxInactiveInterval(60 * 60); // 기본 세션 유지시간. 1시간.
+            session.setMaxInactiveInterval(60 * 60);
 
             // 로그인 구분자를 쿠키에 삽입.
             Cookie cookie = new Cookie("isLogined", "true");
@@ -51,7 +54,7 @@ public class LoginContorller {
     @PostMapping("/logout")
     public void logout(HttpSession session, HttpServletResponse response) {
         // 서버에서 세션을 제거한다.
-        session.invalidate();
+        // session.invalidate();
 
         // 쿠키에 로그인 상태를 제거 한다.
         Cookie cookie = new Cookie("isLogined", null);

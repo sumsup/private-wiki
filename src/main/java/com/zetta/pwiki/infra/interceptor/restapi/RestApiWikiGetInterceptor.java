@@ -4,6 +4,7 @@ import com.zetta.pwiki.commons.WikiCommons;
 import com.zetta.pwiki.util.WebUtils;
 import org.springframework.web.servlet.HandlerInterceptor;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -16,6 +17,8 @@ public class RestApiWikiGetInterceptor implements HandlerInterceptor {
 
         if (wikiId != null) {
             if (WikiCommons.isWikiPublic(wikiId)) {
+                Cookie cookie = new Cookie("test", "good");
+                response.addCookie(cookie);
                 return true;
             }
         }
@@ -35,6 +38,7 @@ public class RestApiWikiGetInterceptor implements HandlerInterceptor {
         }
 
         response.setStatus(400); // 어떤 것에도 해당되지 않으면. Bad Request.
+
         return false;
     }
 

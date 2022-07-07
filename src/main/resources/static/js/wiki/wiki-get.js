@@ -81,7 +81,7 @@ window.addEventListener('load',function () {
 
             let title = wikiData['title'];
             let createdAt = wikiData['createdAt'].replace('T', ' ');
-            let updatedAt = wikiData['updatedAt'] === null ? '-' : wikiData['updatedAt'];
+            let updatedAt = wikiData['updatedAt'] === null ? '-' : wikiData['updatedAt'].replace('T', ' ');
             let creatorNickname = wikiData.member.nickname;
 
             // 위키 내용을 화면에 표시.

@@ -1,7 +1,6 @@
 // function도 Object에 property로 할당 가능.
 // 이 이후부터는 이렇게 도메인 별로 객체로 나누어 보관 하도록 하자.
 const HTTP_COMMON_UTILS = {
-    keepSessionFlag : true,
 
     httpRequestSend : function (callback, method, url, failCallback, formData) {
         // XmlHttpRequest를 쓰면 this의 context는 해당 Object가 아니라 XmlHttpRequest 객체를 가리키게 됨.
@@ -67,6 +66,8 @@ const HTTP_COMMON_UTILS = {
         return "";
 
     },
+
+    keepSessionFlag : true,
 
     keepSession : function () {
         const that = this;

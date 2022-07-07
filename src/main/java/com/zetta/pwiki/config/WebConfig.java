@@ -4,6 +4,7 @@ import com.zetta.pwiki.infra.interceptor.page.PageWikiGetInterceptor;
 import com.zetta.pwiki.infra.interceptor.page.PageWikiListInterceptor;
 import com.zetta.pwiki.infra.interceptor.restapi.RestApiWikiGetInterceptor;
 import com.zetta.pwiki.infra.interceptor.restapi.RestApiWikiUpdateOrDeleteInterceptor;
+import com.zetta.pwiki.infra.interceptor.restapi.commons.LoginCheckInterceptor;
 import com.zetta.pwiki.infra.interceptor.restapi.commons.PageLoginCheckInterceptor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -44,6 +45,11 @@ public class WebConfig implements WebMvcConfigurer {
         return new PageLoginCheckInterceptor();
     }
 
+    @Bean
+    public LoginCheckInterceptor loginCheckInterceptor() {
+        return new LoginCheckInterceptor();
+    }
+
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/").setViewName("forward:/page/wiki/all-wiki-list.html");
@@ -74,6 +80,9 @@ public class WebConfig implements WebMvcConfigurer {
 
         registry.addInterceptor(pageLoginCheckInterceptor())
                 .addPathPatterns("/page/wiki/write");
+
+        registry.addInterceptor(loginCheckInterceptor())
+                .excludePathPatterns("/page/**");
 
     }
 
