@@ -27,11 +27,13 @@ window.addEventListener('load',function () {
             viwerDiv : document.querySelector('#viewer'),
             editorDiv : document.querySelector('#editor'),
             titleModifyDiv: document.querySelector('#title-input-div'),
-            deleteDiv: document.querySelector('#wiki-del-btn-div')
+            deleteDiv: document.querySelector('#wiki-del-btn-div'),
+            isPrivateDiv: document.querySelector('#is-private-div')
         };
 
         const inputElementObj = {
             title : document.querySelector('#wiki-title-input'),
+            isPrivate : document.querySelector('#is-private')
         };
 
         addEventListener();
@@ -83,6 +85,11 @@ window.addEventListener('load',function () {
             let createdAt = wikiData['createdAt'].replace('T', ' ');
             let updatedAt = wikiData['updatedAt'] === null ? '-' : wikiData['updatedAt'].replace('T', ' ');
             let creatorNickname = wikiData.member.nickname;
+            if (wikiData['isPrivate'] === true) {
+                inputElementObj.isPrivate.checked = true;
+            } else {
+                inputElementObj.isPrivate.checked = false;
+            }
 
             // 위키 내용을 화면에 표시.
             // 이렇게 나중에 화면에 표시하면, dom 객체에서 읽지 못하고 null 을 반환하는 경향이 있음.
@@ -165,6 +172,8 @@ window.addEventListener('load',function () {
             divElementObj.editorDiv.style.display = 'block';
             // 타이틀 수정 input을 표시.
             divElementObj.titleModifyDiv.style.display = 'inline';
+            // 비공개 버튼 disabled off.
+            inputElementObj.isPrivate.disabled = false;
         }
 
         function modifyCancel() {
@@ -195,6 +204,8 @@ window.addEventListener('load',function () {
             divElementObj.viwerDiv.style.display = 'block';
             // 삭제 버튼을 표시한다.
             divElementObj.deleteDiv.style.display = 'inline-block';
+            // 비공개 버튼 disabled on.
+            inputElementObj.isPrivate.disabled = true;
         }
 
         function sendModify() {
@@ -206,7 +217,8 @@ window.addEventListener('load',function () {
 
             formData.append('title', inputElementObj.title.value);
             formData.append('contents', editor.getMarkdown());
-            formData.append('member.id', '1');
+            formData.append('isPrivate', inputElementObj.isPrivate.checked);
+            // formData.append('member.id', '1');
 
             // let createdAt = new Date(document.querySelector('#wiki-created-at').innerText)
             //     .toISOString();

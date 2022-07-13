@@ -47,13 +47,13 @@ public class WikiController {
     }
 
     @PostMapping("/wiki/save")
-    public Wiki saveWiki(Wiki wiki, HttpSession UserSession) {
-        return wikiService.save(wiki, UserSession);
+    public Wiki saveWiki(Wiki wiki, HttpSession userSession) {
+        return wikiService.save(wiki, userSession);
     }
 
     @PostMapping("/wiki/update/{id}")
-    public boolean updateWiki(Wiki wiki) {
-        return wikiService.update(wiki);
+    public boolean updateWiki(Wiki wiki, HttpSession userSession) {
+        return wikiService.update(wiki, userSession);
     }
 
     @DeleteMapping("/wiki/delete/{id}")

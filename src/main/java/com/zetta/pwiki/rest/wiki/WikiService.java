@@ -34,7 +34,7 @@ public class WikiService {
         Predicate notPrivate = cb.isFalse(wikiDTORoot.get("isPrivate"));
         Predicate finalConditions = cb.and(notDeleted, notPrivate);
 
-        cr.select(wikiDTORoot).where(finalConditions);
+        cr.select(wikiDTORoot).where(finalConditions).orderBy(cb.desc(wikiDTORoot.get("id")));
 
         return em.createQuery(cr).getResultList();
     }
@@ -50,7 +50,7 @@ public class WikiService {
         Predicate notDeleted = cb.isFalse(wikiDTORoot.get("isDeleted"));
         Predicate finalConditions = cb.and(equalCreatorId, notDeleted);
 
-        cr.select(wikiDTORoot).where(finalConditions);
+        cr.select(wikiDTORoot).where(finalConditions).orderBy(cb.desc(wikiDTORoot.get("id")));
 
         return em.createQuery(cr).getResultList();
     }
@@ -70,7 +70,7 @@ public class WikiService {
 
     // 위키 수정.
     @Transactional
-    public boolean update(Wiki wikiDTO) {
+    public boolean update(Wiki wikiDTO, HttpSession userSession) {
         Optional<Wiki> findWiki = wikiRepository.findById(wikiDTO.getId());
 
         if (!findWiki.isPresent()) {
@@ -80,8 +80,8 @@ public class WikiService {
         findWiki.ifPresent(wiki -> {
             wiki.setTitle(wikiDTO.getTitle());
             wiki.setContents(wikiDTO.getContents());
-            wiki.setPrivate(wikiDTO.isPrivate());
-            wiki.getMember().setId(wikiDTO.getMember().getId());
+            wiki.setIsPrivate(wikiDTO.getIsPrivate());
+//            wiki.getMember().setId((Integer) userSession.getAttribute("userId"));
         });
 
         return true;

@@ -28,7 +28,7 @@ public class WikiCommons {
         Wiki wiki = wikiRepositoryInitializer.findById(wikiId);
 
         if (wiki != null) {
-            if (wiki.isPrivate()) {
+            if (wiki.getIsPrivate()) {
                 return false;
             } else {
                 return true;

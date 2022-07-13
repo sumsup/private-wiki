@@ -31,7 +31,7 @@ public class Wiki {
 
     // TODO : creatorId 컬럼에 값 어떻게 집어 넣는거야??.. 조인하면 그게 안되나? 왜 duplicated column name 이냐고..
 //    private int creatorId;
-    private boolean isPrivate;
+    private Boolean isPrivate;
     private LocalDateTime updatePrivateAt;
 
     // TODO : 조회시에 제외컬럼에 password 추가 하기.

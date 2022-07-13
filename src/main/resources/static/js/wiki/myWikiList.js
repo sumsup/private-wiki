@@ -42,7 +42,7 @@ window.addEventListener('load',function () {
                 let wikiTitle = wikiListJson[i]['title'];
                 let contentPreview = wikiListJson[i]['contents'].substring(0,30);
                 let createdDate = wikiListJson[i]['createdAt'].replace('T',' ');
-                let isPrivate = wikiListJson[i]['private'] === true ? '비공개' : '공개';
+                let isPrivate = wikiListJson[i]['isPrivate'] === true ? '비공개' : '공개';
 
                 let oneWikiTemplateElem =
                     `<div class="one-wiki-div">
