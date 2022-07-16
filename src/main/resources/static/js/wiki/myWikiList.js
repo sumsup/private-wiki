@@ -6,9 +6,9 @@ window.addEventListener('load',function () {
         pageStarter();
 
         function pageStarter() {
-            eventListeners();
             selectList();
             displayButtonWriteWiki();
+            eventListeners();
         }
 
         // 로그인 상태일 시 위키 작성 버튼을 표시.
@@ -22,7 +22,11 @@ window.addEventListener('load',function () {
         }
 
         function eventListeners() {
-            buttonElementObj.goToWritePage.addEventListener('click', goToWritePage);
+            // 로그인 상태가 아닐 때는 글쓰기 버튼이 표시되지 않는다.
+            // 따라서 goToWritePage는 null이고 null 값에 event listener를 붙이면 Uncaught Typeerror가 발생한다.
+            // if (buttonElementObj.goToWritePage !== null) {
+                buttonElementObj.goToWritePage.addEventListener('click', goToWritePage);
+            // }
         }
 
         function selectList() {

@@ -28,12 +28,6 @@ public class PageWikiGetInterceptor implements HandlerInterceptor {
             return true;
         }
 
-        // 3. 로그인 상태가 아니라면 로그인 페이지로.
-        if (WebUtils.isNotLogined(request)) {
-            response.sendRedirect("/page/member/login");
-            return false;
-        }
-
         // 4. 로그인한 유저가 작성한 위키가 맞으면 통과.
         if (WikiCommons.isMatchWikiMaker(wikiId, (Integer) request.getSession().getAttribute("userId"))) {
             return true;

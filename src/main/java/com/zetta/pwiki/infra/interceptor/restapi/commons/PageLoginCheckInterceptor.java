@@ -15,6 +15,11 @@ public class PageLoginCheckInterceptor implements HandlerInterceptor {
         if (WebUtils.isNotLogined(request)) {
             log.error("this request require login status. request URL : {}" , request.getRequestURI());
             response.setStatus(401); // Unauthorized. 로그인 해라.
+
+            // 로그인 이전 페이지를 기억하고 있기.
+            String referrer = request.getHeader("Referrer");
+            request.getSession().setAttribute("prevPage", referrer);
+
             response.sendRedirect("/page/member/login");
             return false;
         }

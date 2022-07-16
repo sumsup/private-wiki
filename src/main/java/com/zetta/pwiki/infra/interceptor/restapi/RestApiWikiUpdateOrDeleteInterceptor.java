@@ -27,6 +27,7 @@ public class RestApiWikiUpdateOrDeleteInterceptor implements HandlerInterceptor 
             return true;
         } else {
             response.setStatus(401); // Unauthorized.
+            log.info("you have not auth of modifying or deleteing this wiki");
             return false;
         }
 

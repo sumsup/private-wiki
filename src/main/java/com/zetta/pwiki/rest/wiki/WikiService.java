@@ -1,5 +1,6 @@
 package com.zetta.pwiki.rest.wiki;
 
+import com.zetta.pwiki.rest.member.Member;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -64,7 +65,9 @@ public class WikiService {
     // TODO : created_at 컬럼을 default now()로 설정했는데 왜 null로 들어갈까??
     public Wiki save(Wiki wiki, HttpSession userSession) {
 //        wiki.setCreatorId((Integer) userSession.getAttribute("userId"));
-        wiki.getMember().setId((Integer) userSession.getAttribute("userId"));
+        Member member = new Member();
+        member.setId((Integer) userSession.getAttribute("userId"));
+        wiki.setMember(member);
         return wikiRepository.save(wiki);
     }
 

@@ -55,10 +55,11 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addViewController("/").setViewName("forward:/page/wiki/all-wiki-list.html");
     }
 
+    // TODO : Interceptor 통합 및 정리.
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(pageWikiListInterceptor())
-                .addPathPatterns("/page/wiki/list");
+//        registry.addInterceptor(pageWikiListInterceptor())
+//                .addPathPatterns("/page/wiki/list");
 //                .excludePathPatterns("/login", "/page/member/login", "/**/**/**.html", "/error"
 //                        , "/js/**/**" ,"/css/**/**", "/favicon.ico", "/page/member/join");
 //                .excludePathPatterns("/wiki/all");
@@ -81,8 +82,10 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addInterceptor(pageLoginCheckInterceptor())
                 .addPathPatterns("/page/wiki/write");
 
+        // 로그인 페이지와
         registry.addInterceptor(loginCheckInterceptor())
-                .excludePathPatterns("/page/**");
+                .excludePathPatterns("/login", "/css/**", "/js/**", "/dependency/**", "/error", "/logout"
+                , "/page/member/login**", "/**/**.html");
 
     }
 

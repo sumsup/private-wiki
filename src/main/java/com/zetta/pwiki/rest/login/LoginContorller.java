@@ -1,7 +1,6 @@
 package com.zetta.pwiki.rest.login;
 
 import com.zetta.pwiki.rest.member.Member;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -9,6 +8,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 
 @RestController
 public class LoginContorller {
@@ -20,7 +20,7 @@ public class LoginContorller {
     }
 
     @PostMapping("/login")
-    public boolean login(Member member, HttpServletRequest request, HttpServletResponse response) {
+    public boolean login(Member member, HttpServletRequest request, HttpServletResponse response) throws IOException {
         // 회원 로그인 확인 절차.
         Member getMember = loginService.loginMember(member);
 
@@ -39,6 +39,10 @@ public class LoginContorller {
             Cookie cookie = new Cookie("isLogined", "true");
             response.addCookie(cookie);
 
+            String prevPage = (String) request.getSession().getAttribute("prevPage");
+            response.addHeader("Prev-Page", prevPage);
+
+            response.setStatus(302); // 응답값만 302로 내려보내기 위함. 어차피 ajax는 sendRedirect안됨.
             return true;
 
         } else { // 패스워드가 일치 하지 않으면?
@@ -54,7 +58,7 @@ public class LoginContorller {
     @PostMapping("/logout")
     public void logout(HttpSession session, HttpServletResponse response) {
         // 서버에서 세션을 제거한다.
-        // session.invalidate();
+        session.invalidate();
 
         // 쿠키에 로그인 상태를 제거 한다.
         Cookie cookie = new Cookie("isLogined", null);

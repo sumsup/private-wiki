@@ -41,8 +41,8 @@ window.addEventListener('load',function () {
 
             formData.append("title", document.querySelector('#wiki-title').value);
             formData.append("contents", editor.getMarkdown());
-            formData.append("private", document.querySelector('#is-private').checked === true ? 1 : 0);
-            formData.append("member.email", "testEmail@naver.com");
+            formData.append("isPrivate", document.querySelector('#is-private').checked);
+            // formData.append("member.email", "testEmail@naver.com");
 
             for (let pair of formData.entries()) {
                 console.log(pair[0] + ' : ' + pair[1]);
